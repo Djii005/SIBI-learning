@@ -274,7 +274,7 @@ export function PracticePage(): JSX.Element {
 
       <div className="grid gap-6 lg:grid-cols-[2fr,1fr]">
         <Card ariaLabelledBy="practice-heading">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
             <h2 id="practice-heading" className="text-xl font-semibold">
               Kamera latihan
             </h2>
@@ -393,7 +393,7 @@ export function PracticePage(): JSX.Element {
                     onClick={() => setActiveIdx(idx)}
                     aria-current={isActive ? "step" : undefined}
                     className={[
-                      "w-full text-left px-3 py-2 rounded-2xl flex items-center gap-2 border-2 transition-colors",
+                      "w-full text-left min-h-11 px-3 py-2.5 rounded-2xl flex items-center gap-2 border-2 transition-colors",
                       isActive
                         ? "border-brand-500 bg-brand-50 dark:bg-brand-900/40"
                         : "border-transparent hover:bg-[var(--color-bg-subtle)]",

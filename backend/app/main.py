@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
@@ -12,26 +13,26 @@ from app.database import Base, SessionLocal, engine
 from app.routers import auth, lessons, progress
 from app.seed import seed_lessons
 
+logger = logging.getLogger(__name__)
+
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
-    print("[DATABASE_DEBUG] Initializing database tables...")
+    logger.info("Initializing database tables...")
     try:
         Base.metadata.create_all(bind=engine)
-        print("[DATABASE_DEBUG] Database tables created successfully.")
-        
+        logger.info("Database tables created successfully.")
+
         db = SessionLocal()
         try:
-            print("[DATABASE_DEBUG] Seeding lesson catalog...")
+            logger.info("Seeding lesson catalog...")
             seed_lessons(db)
-            print("[DATABASE_DEBUG] Seeding complete.")
+            logger.info("Seeding complete.")
         finally:
             db.close()
-    except Exception as e:
-        import traceback
-        print(f"[DATABASE_ERROR] Database setup failed: {str(e)}")
-        print(f"[DATABASE_ERROR] Traceback: {traceback.format_exc()}")
-        raise e
+    except Exception:
+        logger.exception("Database setup failed")
+        raise
     yield
 
 
